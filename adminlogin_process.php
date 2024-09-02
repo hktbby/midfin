@@ -6,7 +6,7 @@ include('includes/dbconn.php');
 	$myuser = mysqli_real_escape_string($con,$_POST['username']);
 	$mypass = mysqli_real_escape_string($con,$_POST['password']);
 		
-		$sql = ("SELECT * FROM admininfo where username = '$myuser' AND password='$mypass'");
+		$sql = ("SELECT * FROM admin where username = '$myuser' AND password='$mypass'");
 		
 		$result=mysqli_query($con, $sql);
 			if (mysqli_num_rows($result)>0){

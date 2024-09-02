@@ -60,17 +60,15 @@
                 session_start();
                 include('includes/dbconn.php');
                 $id = $_SESSION['proprietor_id'];
-                $sql = ("SELECT * FROM admininfo WHERE id='$id'");
+                $sql = ("SELECT * FROM admin WHERE id='$id'");
                 $result=mysqli_query($con, $sql);
                 while ($row = mysqli_fetch_array($result))
                     {
                         $name = $row['name'];
-                        
 						$email = $row['email'];
 						$phone = $row['contact'];
                         $username = $row['username'];
                         $password = $row['password'];
-						
                     }
                 ?>
             

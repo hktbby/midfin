@@ -26,7 +26,7 @@
          <?php include('includes/dbconn.php');
         $count = 0;
         $id = 0;
-        $sql = "SELECT * FROM tblcnp WHERE status = 'available' order by id desc" or die (mysqli_error($con));
+        $sql = "SELECT * FROM product WHERE status = 'available' order by id desc" or die (mysqli_error($con));
         
         $result=mysqli_query($con, $sql) or die (mysqli_error($con));
         

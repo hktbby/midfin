@@ -105,11 +105,10 @@
               <div class="panel-heading wow fadeInDown" style="font-weight:bold; font-size:16px; color:#36648B;">PET SHOPPEE Special Offer </div>
               <ul class="list-group">
                
-                <li class="list-group-item wow fadeInDown">Dog - <span style="color:#8B8B00; font-weight:bold;">Php 500 to 600 </span> <span style="color:#EE5C42;" class="glyphicon glyphicon-ok pull-right"></span></li>
-                 <li class="list-group-item wow fadeInDown">Fish  - <span style="color:#8B8B00; font-weight:bold;">Php 150 to 300 </span> <span style="color:#EE5C42;" class="glyphicon glyphicon-ok pull-right"></span></li>
-                  <li class="list-group-item wow fadeInDown">Bird  - <span style="color:#8B8B00; font-weight:bold;">Php 300 to 450 </span> <span style="color:#EE5C42;" class="glyphicon glyphicon-ok pull-right"></span></li>
-                  
-                   <li class="list-group-item wow fadeInDown">Cat- <span style="color:#8B8B00; font-weight:bold;">Php 200 to 350 </span> <span style="color:#EE5C42;" class="glyphicon glyphicon-ok pull-right"></span></li>
+                <li class="list-group-item wow fadeInDown">Dog Food - <span style="color:#8B8B00; font-weight:bold;">Php 200 to 400 </span> <span style="color:#EE5C42;" class="glyphicon glyphicon-ok pull-right"></span></li>
+                 <li class="list-group-item wow fadeInDown">Cat Food  - <span style="color:#8B8B00; font-weight:bold;">Php 200 to 400 </span> <span style="color:#EE5C42;" class="glyphicon glyphicon-ok pull-right"></span></li>
+                  <li class="list-group-item wow fadeInDown">Bird  - <span style="color:#8B8B00; font-weight:bold;">Php 300 to 900 </span> <span style="color:#EE5C42;" class="glyphicon glyphicon-ok pull-right"></span></li>
+                   <li class="list-group-item wow fadeInDown">Fish - <span style="color:#8B8B00; font-weight:bold;">Php 20 to 300 </span> <span style="color:#EE5C42;" class="glyphicon glyphicon-ok pull-right"></span></li>
                  -->
 
             

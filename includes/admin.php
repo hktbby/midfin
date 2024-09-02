@@ -108,25 +108,43 @@ function printContent(el){
 
 			   $stat = 'new';
 			   $total = 0;
-			   $sql = ("SELECT tblcnp.*,tblorders.* 
-			   								FROM tblorders LEFT JOIN 
-											tblcnp ON tblorders.cnpoid = tblcnp.id WHERE tblorders.ostatus = 'New' order by tblorders.id LIMIT 0,30 ") or die (mysqli_error());
+			  
 
-        $result=mysqli_query($con, $sql);
-				if(mysqli_num_rows($result)>0){
-					while($row = mysqli_fetch_assoc($result)){
-						$total = $row['prize'] * $row['oqty'];?>
-               <tr class="success" style="cursor:pointer;">
-           		 <td style="text-align:center;"><a href="#viewModal<?php echo $row['id']?>" data-toggle="modal" data-target="#viewModal<?php echo $row['id']?>" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> View</a></td>
-                <td style="text-align:center;"><?php echo $row['cname'];?></td>
-                <td style="text-align:center;"><?php echo $row['name'];?></td>
-                <td style="text-align:center;"><?php echo $row['address'];?></td>
-                <td style="text-align:center;"><?php echo $row['contact'];?></td>
-                <td style="text-align:center;"><?php echo $row['timestamp'];?></td>
-               
-               
-               </tr>
-               ?>
+        $sql = "SELECT product.*, `order`.* 
+                FROM `order` 
+                LEFT JOIN product ON `order`.npoid = product.id 
+                WHERE `order`.status = 'New' 
+                ORDER BY `order`.id 
+                LIMIT 0, 30";
+
+// Execute the query
+        $result = mysqli_query($con, $sql);
+
+// Check if there are any results
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $total = $row['prize'] * $row['quantity'];
+                ?>
+                <tr class="success" style="cursor:pointer;">
+                    <td style="text-align:center;">
+                        <a href="#viewModal<?php echo $row['id']; ?>" data-toggle="modal" data-target="#viewModal<?php echo $row['id']; ?>" class="btn btn-default">
+                            <i class="glyphicon glyphicon-search"></i> View
+                        </a>
+                    </td>
+                    <td style="text-align:center;"><?php echo htmlspecialchars($row['name']); ?></td>
+                    <td style="text-align:center;"><?php echo htmlspecialchars($row['address']); ?></td>
+                    <td style="text-align:center;"><?php echo htmlspecialchars($row['contact']); ?></td>
+                    <td style="text-align:center;"><?php echo htmlspecialchars($row['timestamp']); ?></td>
+                </tr>
+                <?php
+            }
+        } else {
+            echo "<tr><td colspan='5' style='text-align:center;'>No records found.</td></tr>";
+        }
+?>
+
+
+
                <!-- Modal -->
 <div class="modal fade" id="viewModal<?php echo $row['id']?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -145,19 +163,19 @@ function printContent(el){
              <dd><?php echo $row['name'].' ';?><img src="<?php echo $row['image']?>" width="90px;" class="img-responsive img-rounded"></dd>
             <dt>Description:</dt> <dd><?php echo $row['description'];?></dd>
             <dt>Price:</dt> <dd><?php echo 'Shs. '.$row['prize'];?></dd>
-            <dt>Quantity:</dt> <dd><?php echo $row['oqty'];?></dd>
+            <dt>Quantity:</dt> <dd><?php echo $row['quantity'];?></dd>
             <dt>Total:</dt> <dd><?php echo 'Shs. '.number_format($total,2,'.',',');?></dd>
             <hr style="border-top: 1px dashed #8c8b8b;
 	border-bottom: 1px dashed #fff;">
     		<h4 ><b>CUSTOMER DETAILS</b></h4>
-            <dt>Ordered by:</dt> <dd><?php echo $row['cname'].' ';?></dd>
-            <dt>Ordered Type:</dt> <dd><?php echo $row['otype'].' ';?></dd>
+            <dt>Ordered by:</dt> <dd><?php echo $row['name'].' ';?></dd>
+            <dt>Ordered Type:</dt> <dd><?php echo $row['type'].' ';?></dd>
             <dt>Date Pick-up:</dt> <dd><?php echo $row['datepickup'].' ';?></dd>
             <dt>Date Order:</dt> <dd><?php echo $row['timestamp'];?></dd>
             <dt>Address:</dt> <dd><?php echo $row['address'];?></dd>
             <dt>Contact:</dt> <dd><?php echo $row['contact'];?></dd>
             
-            <dt>Status:</dt> <dd><?php echo $row['ostatus'];?></dd>
+            <dt>Status:</dt> <dd><?php echo $row['status'];?></dd>
         </dl>
   
       </div>
@@ -172,7 +190,7 @@ function printContent(el){
     </div>
   </div>
 </div>
-               <?php }}?>
+               <?php ?>
             </tbody>
         </table>
        
@@ -180,24 +198,37 @@ function printContent(el){
 </div>
  
  <!-------------------------------------------------------OPEN MODAL MESSAGE---------------------------------------------------------------->
-       <?php include('includes/dbconn.php');
-	   if(isset($_POST['deliver'])){
-		   $id = $_POST['fdid'];
-		   $sql =("UPDATE tblorders set ostatus = 'Completed' WHERE id = '$id'") or die (mysqli_error());
-		   
-        $result=mysqli_query($con, $sql);
-       if($result==true){
-			   header("location:index.php");}
-		   
-		   }
-		 else if(isset($_POST['cancel'])){
-			 $id = $_POST['fdid'];
-			 $sql = ("UPDATE tblorders set ostatus = 'Cancel' WHERE id = '$id'") or die (mysqli_error());
-			 $result=mysqli_query($con, $sql);
-       if($result== true){
-				 header("location:index.php");}
-			 }
-		   ?>
+       
+        <?php 
+        include('includes/dbconn.php');
+
+        if (isset($_POST['deliver']) || isset($_POST['cancel'])) {
+            $id = $_POST['fdid'];
+
+            // Determine status based on which button was pressed
+            if (isset($_POST['deliver'])) {
+                $status = 'Completed';
+            } else if (isset($_POST['cancel'])) {
+                $status = 'Cancel';
+            }
+
+            // Prepare the SQL query
+            $sql = "UPDATE `order` SET status = '$status' WHERE id = '$id'";
+
+            // Execute the query
+            $result = mysqli_query($con, $sql);
+
+            // Check if the query was successful
+            if ($result) {
+                // Redirect and exit
+                header("Location: index.php");
+                exit();
+            } else {
+                // Output the error if the query fails
+                die("Error: " . mysqli_error($con));
+            }
+        }
+        ?>
        
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <!--*************************************************** FOOTERS **********************************************-->
@@ -206,7 +237,7 @@ function printContent(el){
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <center>&copy; 2019 <a target="_blank" href="#" title="#">PET SHOPPEE</a>. All Rights Reserved.</center>
+                    <center>&copy; 2024 <a target="_blank" href="#" title="#">PET SHOPPEE</a>. All Rights Reserved.</center>
                 </div>
             </div>
         </div>
@@ -227,7 +258,5 @@ function printContent(el){
     });
 
 </script>
-
-    
 </body>
 </html>

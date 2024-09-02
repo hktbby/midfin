@@ -24,7 +24,7 @@
                     <tbody>
                     <?php include('includes/dbconn.php');
 					$id = 0;
-					$sql = ("SELECT *  FROM tblcnp order by id DESC") or die (mysqli_error());
+					$sql = "SELECT * FROM product ORDER BY id DESC";
                     $result=mysqli_query($con, $sql);
 					if(mysqli_num_rows($result)>0){
 						while($row = mysqli_fetch_assoc($result)){
